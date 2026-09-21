@@ -1,107 +1,62 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', sans-serif;
+const codonTable = {
+  TTT: "Phe", TTC: "Phe", TTA: "Leu", TTG: "Leu",
+  CTT: "Leu", CTC: "Leu", CTA: "Leu", CTG: "Leu",
+  ATT: "Ile", ATC: "Ile", ATA: "Ile", ATG: "Met",
+  GTT: "Val", GTC: "Val", GTA: "Val", GTG: "Val",
+  TCT: "Ser", TCC: "Ser", TCA: "Ser", TCG: "Ser",
+  CCT: "Pro", CCC: "Pro", CCA: "Pro", CCG: "Pro",
+  ACT: "Thr", ACC: "Thr", ACA: "Thr", ACG: "Thr",
+  GCT: "Ala", GCC: "Ala", GCA: "Ala", GCG: "Ala",
+  TAT: "Tyr", TAC: "Tyr", TAA: "Stop", TAG: "Stop",
+  CAT: "His", CAC: "His", CAA: "Gln", CAG: "Gln",
+  AAT: "Asn", AAC: "Asn", AAA: "Lys", AAG: "Lys",
+  GAT: "Asp", GAC: "Asp", GAA: "Glu", GAG: "Glu",
+  TGT: "Cys", TGC: "Cys", TGA: "Stop", TGG: "Trp",
+  CGT: "Arg", CGC: "Arg", CGA: "Arg", CGG: "Arg",
+  AGT: "Ser", AGC: "Ser", AGA: "Arg", AGG: "Arg",
+  GGT: "Gly", GGC: "Gly", GGA: "Gly", GGG: "Gly"
+};
+
+function translateDNA() {
+  const input = document.getElementById("dnaInput").value.toUpperCase().trim();
+  const outputEl = document.getElementById("output");
+  const codonEl = document.getElementById("codonList");
+
+  if (!input) {
+    outputEl.textContent = "Please enter a DNA sequence.";
+    codonEl.textContent = "—";
+    return;
+  }
+
+  if (!/^[ATGC]+$/.test(input)) {
+    outputEl.textContent = "Invalid sequence. Use only A, T, G, C.";
+    codonEl.textContent = "—";
+    return;
+  }
+
+  if (input.length < 3) {
+    outputEl.textContent = "Sequence too short. Need at least 3 bases.";
+    codonEl.textContent = "—";
+    return;
+  }
+
+  const codons = [];
+  for (let i = 0; i < input.length - 2; i += 3) {
+    codons.push(input.slice(i, i + 3));
+  }
+
+  const aminoAcids = codons.map(codon => codonTable[codon] || "?");
+
+  codonEl.textContent = codons.join(" - ");
+  outputEl.textContent = aminoAcids.join(" - ");
+
+  if (aminoAcids.includes("Stop")) {
+    outputEl.textContent += "  ⛔ (Stop codon found)";
+  }
 }
 
-body {
-  background: #0f172a;
-  color: #e2e8f0;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-
-.container {
-  background: #1e293b;
-  padding: 30px;
-  border-radius: 12px;
-  max-width: 600px;
-  width: 100%;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-}
-
-h1 {
-  color: #38bdf8;
-  margin-bottom: 8px;
-}
-
-.subtitle {
-  color: #94a3b8;
-  margin-bottom: 20px;
-  font-size: 14px;
-}
-
-label {
-  display: block;
-  margin-bottom: 8px;
-  color: #cbd5e1;
-}
-
-textarea {
-  width: 100%;
-  height: 100px;
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #334155;
-  background: #0f172a;
-  color: #e2e8f0;
-  font-family: monospace;
-  font-size: 16px;
-  resize: vertical;
-  margin-bottom: 15px;
-}
-
-textarea:focus {
-  outline: none;
-  border-color: #38bdf8;
-}
-
-button {
-  background: #38bdf8;
-  color: #0f172a;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-right: 10px;
-  transition: 0.2s;
-}
-
-button:hover {
-  background: #0ea5e9;
-}
-
-.clear-btn {
-  background: #475569;
-  color: #e2e8f0;
-}
-
-.clear-btn:hover {
-  background: #64748b;
-}
-
-.output-box {
-  margin-top: 20px;
-  padding: 15px;
-  background: #0f172a;
-  border-radius: 8px;
-  border-left: 4px solid #38bdf8;
-}
-
-.output-box h3 {
-  color: #38bdf8;
-  margin-bottom: 8px;
-  font-size: 16px;
-}
-
-.output-box p {
-  font-family: monospace;
-  font-size: 16px;
-  word-wrap: break-word;
-  color: #f1f5f9;
+function clearAll() {
+  document.getElementById("dnaInput").value = "";
+  document.getElementById("output").textContent = "—";
+  document.getElementById("codonList").textContent = "—";
 }
