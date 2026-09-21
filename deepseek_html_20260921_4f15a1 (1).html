@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Codon Table Tool</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🧬 Codon Table Tool</h1>
+    <p class="subtitle">Convert DNA sequence to amino acids</p>
+
+    <label for="dnaInput">Enter DNA Sequence:</label>
+    <textarea id="dnaInput" placeholder="Example: ATGGCTTAAGCT"></textarea>
+
+    <button onclick="translateDNA()">Translate</button>
+    <button onclick="clearAll()" class="clear-btn">Clear</button>
+
+    <div class="output-box">
+      <h3>Result:</h3>
+      <p id="output">—</p>
+    </div>
+
+    <div class="output-box">
+      <h3>Codons:</h3>
+      <p id="codonList">—</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
